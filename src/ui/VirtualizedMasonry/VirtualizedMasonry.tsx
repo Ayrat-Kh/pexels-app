@@ -1,18 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
+  VirtualizedMasonryContainer,
   VirtualizedMasonryItem,
   VirtualizedMasonryScrollView,
 } from './VirtualizedMasonry.styles';
 import { computeMasonryLayout } from './utils';
 import { VisibleItem } from './types';
 import { Dimension, MasonryBreakpoint } from '@/types';
+import { throttle } from '@/utils';
 
 type ItemBase = Dimension & { id: string | number };
 
 type VirtualizedMasonryProps<T extends ItemBase> = {
   items: T[];
   breakpoints: MasonryBreakpoint[];
-  render: (item: T) => React.ReactNode;
+  render: (data: { data: T }) => React.ReactNode;
   BottomComponent?: React.ReactElement;
 };
 
@@ -34,6 +36,7 @@ export function VirtualizedMasonry<T extends ItemBase>({
     throw new Error('At least 1 breakpoint should be provided');
   }
 
+  const [totalHeight, setTotalHeight] = useState(0);
   const [visibleItems, setVisibleItems] = useState<VisibleItem[]>([]);
   const scrollViewRef = useRef<HTMLDivElement>(null);
 
@@ -46,8 +49,7 @@ export function VirtualizedMasonry<T extends ItemBase>({
 
     // Function to calculate visible items
     const calculateVisibleItems = () => {
-      console.log('calc');
-      const { visibleItems } = computeMasonryLayout({
+      const { visibleItems, totalHeight } = computeMasonryLayout({
         containerTop: scrollView.scrollTop,
         containerHeight: scrollView.clientHeight,
         containerWidth: scrollView.clientWidth,
@@ -56,21 +58,22 @@ export function VirtualizedMasonry<T extends ItemBase>({
       });
 
       setVisibleItems(visibleItems);
+      setTotalHeight(totalHeight);
     };
 
-    calculateVisibleItems();
+    const throttled = throttle(calculateVisibleItems, 50);
 
     const eventAbortController = new AbortController();
-    scrollView.addEventListener('scroll', calculateVisibleItems, {
+    scrollView.addEventListener('scroll', throttled, {
       signal: eventAbortController.signal,
     });
 
     // try to use ResizeObserver or fallback to window resize event
     if (scrollView && typeof ResizeObserver !== 'undefined') {
-      scrollViewObserver = new ResizeObserver(calculateVisibleItems);
+      scrollViewObserver = new ResizeObserver(throttled);
       scrollViewObserver.observe(scrollView);
     } else {
-      window.addEventListener('resize', calculateVisibleItems, {
+      window.addEventListener('resize', throttled, {
         signal: eventAbortController.signal,
       });
     }
@@ -83,15 +86,21 @@ export function VirtualizedMasonry<T extends ItemBase>({
 
   return (
     <VirtualizedMasonryScrollView ref={scrollViewRef}>
-      {visibleItems.map(({ itemIndex, style }) => {
-        const item = items[itemIndex];
+      <VirtualizedMasonryContainer
+        style={{
+          height: `${totalHeight}px`,
+        }}
+      >
+        {visibleItems.map(({ itemIndex, style }) => {
+          const data = items[itemIndex];
 
-        return (
-          <VirtualizedMasonryItem key={item.id} style={style}>
-            {render(item)}
-          </VirtualizedMasonryItem>
-        );
-      })}
+          return (
+            <VirtualizedMasonryItem key={data.id} style={style}>
+              {render({ data })}
+            </VirtualizedMasonryItem>
+          );
+        })}
+      </VirtualizedMasonryContainer>
       {BottomComponent}
     </VirtualizedMasonryScrollView>
   );

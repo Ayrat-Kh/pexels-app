@@ -3,6 +3,7 @@ import { VirtualizedMasonry } from '../VirtualizedMasonry';
 import { breakpoints } from '@/global/constants';
 import { LoadMore } from '../LoadMore';
 import { useFetchPhotos } from '@/hooks/api/useFetchPhotos';
+import { PhotosGridItem } from './PhotosGridItem';
 
 export const PhotosGrid = () => {
   const { data, isLoading, fetchNextPage, hasNextPage } = useFetchPhotos();
@@ -21,9 +22,7 @@ export const PhotosGrid = () => {
     <VirtualizedMasonry
       breakpoints={breakpoints}
       items={data}
-      render={(item) => {
-        return <img src={item.src.original} style={{ width: '100%' }} />;
-      }}
+      render={PhotosGridItem}
       BottomComponent={<LoadMore loadMore={handleFetch} rootMargin="10px" />}
     />
   );

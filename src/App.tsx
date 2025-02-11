@@ -1,12 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router';
 import { Suspense, lazy } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from './services/api/queryClient';
+import { queryClient } from '@/services/api/queryClient';
+import { appRoutes } from './global/routes';
 
-import './App.css';
+import '@/App.css';
 
-const PhotosView = lazy(() => import('./features/PhotosView/PhotosView'));
-const PhotoDetails = lazy(() => import('./features/PhotoDetails/PhotoDetails'));
+const PhotosView = lazy(() => import('@/ui/PhotosView'));
+const PhotoDetails = lazy(() => import('@/ui/PhotoDetailsPage'));
 
 const App = () => {
   return (
@@ -14,8 +15,11 @@ const App = () => {
       <BrowserRouter>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            <Route path="/" element={<PhotosView />} />
-            <Route path="details/:photoId" element={<PhotoDetails />} />
+            <Route path={appRoutes.photosView.url} element={<PhotosView />} />
+            <Route
+              path={appRoutes.photoDetails.url}
+              element={<PhotoDetails />}
+            />
           </Routes>
         </Suspense>
       </BrowserRouter>

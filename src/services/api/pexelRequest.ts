@@ -1,4 +1,9 @@
-export const pexelRequest = (url: string, init?: RequestInit) => {
+import { NotFoundError, UnknownError } from '@/global/errors';
+
+export const pexelRequest = async <TResponse>(
+  url: string,
+  init?: RequestInit
+): Promise<TResponse> => {
   const options: RequestInit = {
     headers: {
       'Content-Type': 'application/json',
@@ -7,5 +12,19 @@ export const pexelRequest = (url: string, init?: RequestInit) => {
     },
     ...init,
   };
-  return fetch(`${import.meta.env.VITE_PEXELS_BASE_URL}${url}`, options);
+  const response = await fetch(
+    `${import.meta.env.VITE_PEXELS_BASE_URL}${url}`,
+    options
+  );
+
+  if (response.ok) {
+    return await response.json();
+  }
+
+  if (response.status === 404) {
+    console.log('throw NotFoundError');
+    throw new NotFoundError();
+  }
+
+  throw new UnknownError();
 };
