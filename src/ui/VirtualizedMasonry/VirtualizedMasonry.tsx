@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   VirtualizedMasonryContainer,
   VirtualizedMasonryItem,
@@ -14,6 +14,7 @@ type VirtualizedMasonryProps<T extends ItemBase> = {
   items: T[];
   breakpoints: MasonryBreakpoint[];
   render: (item: T) => React.ReactNode;
+  BottomComponent?: React.ReactElement;
 };
 
 /**
@@ -28,18 +29,15 @@ export function VirtualizedMasonry<T extends ItemBase>({
   breakpoints,
   items,
   render,
+  BottomComponent,
 }: VirtualizedMasonryProps<T>) {
   if (!breakpoints.length) {
     throw new Error('At least 1 breakpoint should be provided');
   }
 
   const [visibleItems, setVisibleItems] = useState<VisibleItem[]>([]);
+  const [totalHeight, setTotalHeight] = useState(0);
   const scrollViewRef = useRef<HTMLDivElement>(null);
-
-  const totalHeight = useMemo(
-    () => items.reduce((acc, item) => acc + item.height, 0),
-    [items]
-  );
 
   useEffect(() => {
     if (!scrollViewRef.current) {
@@ -50,15 +48,16 @@ export function VirtualizedMasonry<T extends ItemBase>({
 
     // Function to calculate visible items
     const calculateVisibleItems = () => {
-      setVisibleItems(
-        computeMasonryLayout({
-          containerTop: scrollView.scrollTop,
-          containerHeight: scrollView.clientHeight,
-          containerWidth: scrollView.clientWidth,
-          breakpoints,
-          items,
-        })
-      );
+      const { visibleItems, totalHeight } = computeMasonryLayout({
+        containerTop: scrollView.scrollTop,
+        containerHeight: scrollView.clientHeight,
+        containerWidth: scrollView.clientWidth,
+        breakpoints,
+        items,
+      });
+
+      setVisibleItems(visibleItems);
+      setTotalHeight(totalHeight);
     };
 
     calculateVisibleItems();
@@ -68,6 +67,7 @@ export function VirtualizedMasonry<T extends ItemBase>({
       signal: eventAbortController.signal,
     });
 
+    // try to use ResizeObserver or fallback to window resize event
     if (scrollView && typeof ResizeObserver !== 'undefined') {
       scrollViewObserver = new ResizeObserver(calculateVisibleItems);
       scrollViewObserver.observe(scrollView);
@@ -101,6 +101,7 @@ export function VirtualizedMasonry<T extends ItemBase>({
           );
         })}
       </VirtualizedMasonryContainer>
+      {BottomComponent}
     </VirtualizedMasonryScrollView>
   );
 }

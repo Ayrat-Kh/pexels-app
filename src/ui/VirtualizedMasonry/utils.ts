@@ -1,5 +1,5 @@
 import { Dimension, MasonryBreakpoint } from '@/types';
-import { aspectRatio } from '@/utils';
+import { getAspectRatio } from '@/utils';
 import { VisibleItem } from './types';
 
 type ComputeMasonryLayoutParams<T extends Dimension> = {
@@ -8,6 +8,11 @@ type ComputeMasonryLayoutParams<T extends Dimension> = {
   containerWidth: number;
   items: T[];
   breakpoints: MasonryBreakpoint[];
+};
+
+type ComputeMasonryLayoutResult = {
+  visibleItems: VisibleItem[];
+  totalHeight: number;
 };
 
 /**
@@ -21,7 +26,7 @@ export const computeMasonryLayout = <T extends Dimension>({
   containerWidth,
   breakpoints,
   items,
-}: ComputeMasonryLayoutParams<T>): VisibleItem[] => {
+}: ComputeMasonryLayoutParams<T>): ComputeMasonryLayoutResult => {
   const result: VisibleItem[] = [];
 
   // sort breakpoints by their break and get the most applicable
@@ -47,7 +52,7 @@ export const computeMasonryLayout = <T extends Dimension>({
     const item = items[i];
     // Which column the item belongs to
     const columnIndex = i % columnCount;
-    const aspect = aspectRatio(item);
+    const aspect = getAspectRatio(item);
 
     const elementTop = totalHeightByColumn[columnIndex];
     const elementHeight = elementWidth / aspect;
@@ -69,5 +74,8 @@ export const computeMasonryLayout = <T extends Dimension>({
     totalHeightByColumn[columnIndex] += elementHeight + gap;
   }
 
-  return result;
+  return {
+    visibleItems: result,
+    totalHeight: Math.max.apply(null, totalHeightByColumn),
+  };
 };

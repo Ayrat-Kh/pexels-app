@@ -6,11 +6,11 @@ type LoadMoreProps = {
   rootMargin?: string;
 };
 
-export const LoadMore = ({ loadMore, rootMargin = '500px' }: LoadMoreProps) => {
+export const LoadMore = ({ loadMore, rootMargin = '0px' }: LoadMoreProps) => {
   const { observe, unobserve } = useIntersectionObserver(rootMargin);
 
   const sentinelRef = useCallback(
-    (node: HTMLDivElement | null) => {
+    (node: HTMLSpanElement | null) => {
       unobserve();
 
       if (node) {
@@ -24,5 +24,5 @@ export const LoadMore = ({ loadMore, rootMargin = '500px' }: LoadMoreProps) => {
     [loadMore, observe, unobserve]
   );
 
-  return <span ref={sentinelRef} />;
+  return <div ref={sentinelRef} />;
 };

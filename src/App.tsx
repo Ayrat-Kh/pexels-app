@@ -3,7 +3,7 @@ import { Suspense, lazy } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './services/api/queryClient';
 
-import './App.scss';
+import './App.css';
 
 const PhotosView = lazy(() => import('./features/PhotosView/PhotosView'));
 const PhotoDetails = lazy(() => import('./features/PhotoDetails/PhotoDetails'));

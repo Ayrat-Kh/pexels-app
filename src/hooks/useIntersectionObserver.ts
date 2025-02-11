@@ -36,7 +36,7 @@ function createObserver(rootMargin: string) {
 
 export const useIntersectionObserver = (rootMargin: string) => {
   return useMemo(() => {
-    const cleanup: (() => void)[] = [];
+    const cleanup: VoidFunction[] = [];
 
     const observe = (target: Element, callback: Callback) => {
       const { observer, listeners } = createObserver(rootMargin);
