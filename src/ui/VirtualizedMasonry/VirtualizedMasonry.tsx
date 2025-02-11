@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  VirtualizedMasonryContainer,
   VirtualizedMasonryItem,
   VirtualizedMasonryScrollView,
 } from './VirtualizedMasonry.styles';
@@ -36,7 +35,6 @@ export function VirtualizedMasonry<T extends ItemBase>({
   }
 
   const [visibleItems, setVisibleItems] = useState<VisibleItem[]>([]);
-  const [totalHeight, setTotalHeight] = useState(0);
   const scrollViewRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -48,7 +46,8 @@ export function VirtualizedMasonry<T extends ItemBase>({
 
     // Function to calculate visible items
     const calculateVisibleItems = () => {
-      const { visibleItems, totalHeight } = computeMasonryLayout({
+      console.log('calc');
+      const { visibleItems } = computeMasonryLayout({
         containerTop: scrollView.scrollTop,
         containerHeight: scrollView.clientHeight,
         containerWidth: scrollView.clientWidth,
@@ -57,7 +56,6 @@ export function VirtualizedMasonry<T extends ItemBase>({
       });
 
       setVisibleItems(visibleItems);
-      setTotalHeight(totalHeight);
     };
 
     calculateVisibleItems();
@@ -71,7 +69,6 @@ export function VirtualizedMasonry<T extends ItemBase>({
     if (scrollView && typeof ResizeObserver !== 'undefined') {
       scrollViewObserver = new ResizeObserver(calculateVisibleItems);
       scrollViewObserver.observe(scrollView);
-      scrollViewObserver.disconnect();
     } else {
       window.addEventListener('resize', calculateVisibleItems, {
         signal: eventAbortController.signal,
@@ -86,21 +83,15 @@ export function VirtualizedMasonry<T extends ItemBase>({
 
   return (
     <VirtualizedMasonryScrollView ref={scrollViewRef}>
-      <VirtualizedMasonryContainer
-        style={{
-          height: `${totalHeight}px`,
-        }}
-      >
-        {visibleItems.map(({ itemIndex, style }) => {
-          const item = items[itemIndex];
+      {visibleItems.map(({ itemIndex, style }) => {
+        const item = items[itemIndex];
 
-          return (
-            <VirtualizedMasonryItem key={item.id} style={style}>
-              {render(item)}
-            </VirtualizedMasonryItem>
-          );
-        })}
-      </VirtualizedMasonryContainer>
+        return (
+          <VirtualizedMasonryItem key={item.id} style={style}>
+            {render(item)}
+          </VirtualizedMasonryItem>
+        );
+      })}
       {BottomComponent}
     </VirtualizedMasonryScrollView>
   );

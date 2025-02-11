@@ -7,10 +7,6 @@ export const VirtualizedMasonryScrollView = styled.div`
   width: 100%;
 `;
 
-export const VirtualizedMasonryContainer = styled.div`
-  position: relative;
-`;
-
 export const VirtualizedMasonryItem = styled.div`
   position: absolute;
 `;
