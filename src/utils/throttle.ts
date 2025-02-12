@@ -2,7 +2,7 @@ export const throttle = <TFunc extends (...args: unknown[]) => void>(
   f: TFunc,
   waitMs: number
 ) => {
-  let timeout: number | undefined = undefined;
+  let timeout: number | NodeJS.Timeout | undefined = undefined;
   let lastRun = 0;
 
   return function (...args: Parameters<TFunc>) {

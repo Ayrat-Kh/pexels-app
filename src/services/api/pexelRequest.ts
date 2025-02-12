@@ -13,7 +13,7 @@ export const pexelRequest = async <TResponse>(
     ...init,
   };
   const response = await fetch(
-    `${import.meta.env.VITE_PEXELS_BASE_URL}${url}`,
+    `${import.meta.env.VITE_PEXELS_API_URL}${url}`,
     options
   );
 

@@ -14,7 +14,6 @@ export const useFetchPhotos = (search?: string | null) => {
       }
     },
     getNextPageParam(lastPage: PhotosResult): number | null {
-      console.log('lastPage', lastPage);
       return lastPage.next_page ? lastPage.page + 1 : null;
     },
     select(pages) {

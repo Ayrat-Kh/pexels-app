@@ -3,7 +3,7 @@ export const debounce = <TFunc extends (...args: any[]) => void>(
   f: TFunc,
   delayMs: number
 ) => {
-  let timerId: number | undefined = undefined;
+  let timerId: number | NodeJS.Timeout | undefined = undefined;
 
   return function (...args: Parameters<TFunc>): void {
     clearTimeout(timerId);
