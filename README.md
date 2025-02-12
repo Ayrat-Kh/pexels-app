@@ -5,10 +5,8 @@
 - **Masonry Grid Layout** – Beautifully arranges images for a seamless viewing experience.
 - **Virtualized View** – Optimizes performance by rendering only visible images.
 - **Search Functionality** – Quickly find images using keywords.
-- **Detailed Image View** – Click on any image for an immersive preview.
 - **Dynamic Imports** – Reduces initial package size for faster load times.
 - **React Lazy + Suspense** – Enhances performance with lazy loading.
-- **Built with Vite** – Lightning-fast development and build process.
 
 ## Installation
 
