@@ -1,4 +1,4 @@
-import { Link, Navigate, useParams } from 'react-router';
+import { Link, Navigate, useLocation, useParams } from 'react-router';
 
 import { PhotoDetailsParams } from '@/types/routeParams';
 import { useFetchPhotoById } from '@/hooks/api/useFetchPhotoById';
@@ -18,6 +18,8 @@ import { PageLayout } from '../ui';
 
 export const PhotoDetailsPage = () => {
   const { photoId } = useParams<PhotoDetailsParams>();
+
+  const { search } = useLocation();
 
   const { isLoading, data: photoDetails, error } = useFetchPhotoById(photoId);
 
@@ -48,7 +50,14 @@ export const PhotoDetailsPage = () => {
   return (
     <PageLayout align="center">
       <PhotoDetailsInner>
-        <Link to={appRoutes.photosView.url}>Back to Photos</Link>
+        <Link
+          to={{
+            pathname: appRoutes.photosView.url,
+            search,
+          }}
+        >
+          Back to Photos
+        </Link>
         <PhotoDetailsSection>
           <h1>{photoDetails.photographer}</h1>
 

@@ -4,7 +4,7 @@ import { PageLayout } from '../ui';
 
 export const PhotosViewPage = () => {
   return (
-    <PageLayout isCentered>
+    <PageLayout align="center">
       <PhotoSearch />
       <PhotosGrid />
     </PageLayout>
