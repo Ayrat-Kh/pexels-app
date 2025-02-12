@@ -45,4 +45,7 @@ export const DescriptionListItemLabel = styled.span({
 export const PhotoDetailsInner = styled.div({
   maxWidth: '700px',
   width: 'calc(100% - 40px)',
+  alignItems: 'flex-start',
+  display: 'flex',
+  flexDirection: 'column',
 });

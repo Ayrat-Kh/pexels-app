@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import {
   PhotoSearchBar,
-  PhotoSearchContainer,
   PhotoSearchInput,
+  PhotoSearchReset,
 } from './PhotoSearch.styles';
 
 import { useSearchQueryParam } from '@/hooks/useSearchQueryParam';
@@ -10,29 +10,30 @@ import { useSearchQueryParam } from '@/hooks/useSearchQueryParam';
 export const PhotoSearch = () => {
   const searchRef = useRef<HTMLInputElement>(null);
 
-  const { setQuery } = useSearchQueryParam();
+  const { q, setQuery } = useSearchQueryParam();
 
-  const handleSearch = (reset?: boolean) => {
-    if (reset) {
-      setQuery('');
-      if (searchRef.current) searchRef.current.value = '';
-    } else {
-      setQuery(searchRef.current?.value || '');
-    }
+  const handleSearch = () => {
+    setQuery(searchRef.current?.value || '');
+  };
+
+  const handleReset = () => {
+    setQuery('');
+    if (searchRef.current) searchRef.current.value = '';
   };
 
   return (
-    <PhotoSearchContainer>
-      <PhotoSearchBar>
-        <PhotoSearchInput
-          ref={searchRef}
-          type="text"
-          placeholder="Search for photos..."
-          onChange={() => handleSearch()}
-        />
+    <PhotoSearchBar>
+      <PhotoSearchInput
+        ref={searchRef}
+        type="text"
+        defaultValue={q}
+        placeholder="Search for photos..."
+        onChange={handleSearch}
+      />
 
-        <button onClick={() => handleSearch(true)}>Reset</button>
-      </PhotoSearchBar>
-    </PhotoSearchContainer>
+      <PhotoSearchReset disabled={!q} onClick={handleReset}>
+        Reset
+      </PhotoSearchReset>
+    </PhotoSearchBar>
   );
 };

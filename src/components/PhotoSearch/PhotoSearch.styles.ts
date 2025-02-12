@@ -1,26 +1,29 @@
 import { styled } from 'styled-components';
 
-export const PhotoSearchContainer = styled.div({
-  display: 'flex',
-  gap: '8px',
-  marginBottom: '20px',
-});
-
 export const PhotoSearchBar = styled.div({
-  position: 'relative',
+  gap: '8px',
   display: 'flex',
+  justifyContent: 'stretch',
   alignItems: 'center',
-  borderRadius: '4px',
+  width: '100%',
+  marginBottom: '20px',
 });
 
 export const PhotoSearchInput = styled.input({
   flex: '1',
   width: '100%',
+  padding: '4px 8px',
   borderRadius: '0.375rem',
   border: '1px solid #e2e8f0',
   boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-  transition: 'box-shadow 0.2s ease',
   '&:focus': {
     border: '1px solid #3b82f6',
   },
+});
+
+export const PhotoSearchReset = styled.button({
+  padding: '4px 8px',
+  borderRadius: '0.375rem',
+  border: '1px solid #e2e8f0',
+  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
 });
