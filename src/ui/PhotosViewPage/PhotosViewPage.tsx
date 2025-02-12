@@ -1,7 +1,7 @@
 import { PhotosGrid } from '@/ui/PhotosGrid';
-import { PhotosViewContainer } from './PhotosView.styles';
+import { PhotosViewContainer } from './PhotosViewPage.styles';
 
-export const PhotosView = () => {
+export const PhotosViewPage = () => {
   return (
     <PhotosViewContainer>
       {/* <SearchBar /> */}

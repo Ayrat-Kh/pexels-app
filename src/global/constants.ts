@@ -16,3 +16,5 @@ export const breakpoints: MasonryBreakpoint[] = [
     columnCount: 3,
   },
 ];
+
+export const SCROLL_POSITION_KEY = 'SCROLL_POSITION';

@@ -1,4 +1,4 @@
-import { Link, Navigate, useParams } from 'react-router';
+import { Link, Navigate, useLocation, useParams } from 'react-router';
 
 import { PhotoDetailsParams } from '@/types/routeParams';
 import { useFetchPhotoById } from '@/hooks/api/useFetchPhotoById';
@@ -15,6 +15,7 @@ import {
 
 export const PhotoDetailsPage = () => {
   const { photoId } = useParams<PhotoDetailsParams>();
+  const { state } = useLocation();
 
   const { isLoading, data: photoDetails, error } = useFetchPhotoById(photoId);
 
@@ -36,7 +37,12 @@ export const PhotoDetailsPage = () => {
 
   return (
     <>
-      <Link to={appRoutes.photosView.url}>To Photos List</Link>
+      <Link
+        to={appRoutes.photosView.url}
+        state={{ containerTop: state?.containerTop }}
+      >
+        To Photos List
+      </Link>
       <PhotoDetails>
         <PhotoDetailsSection>
           <h1>{photoDetails.photographer}</h1>

@@ -6,8 +6,8 @@ import { appRoutes } from './global/routes';
 
 import '@/App.css';
 
-const PhotosView = lazy(() => import('@/ui/PhotosView'));
-const PhotoDetails = lazy(() => import('@/ui/PhotoDetailsPage'));
+const PhotosViewPage = lazy(() => import('@/ui/PhotosViewPage'));
+const PhotoDetailsPage = lazy(() => import('@/ui/PhotoDetailsPage'));
 
 const App = () => {
   return (
@@ -15,10 +15,13 @@ const App = () => {
       <BrowserRouter>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            <Route path={appRoutes.photosView.url} element={<PhotosView />} />
+            <Route
+              path={appRoutes.photosView.url}
+              element={<PhotosViewPage />}
+            />
             <Route
               path={appRoutes.photoDetails.url}
-              element={<PhotoDetails />}
+              element={<PhotoDetailsPage />}
             />
           </Routes>
         </Suspense>

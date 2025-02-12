@@ -1,21 +1,41 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  ReactElement,
+  Ref,
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   VirtualizedMasonryContainer,
   VirtualizedMasonryItem,
   VirtualizedMasonryScrollView,
 } from './VirtualizedMasonry.styles';
 import { computeMasonryLayout } from './utils';
-import { VisibleItem } from './types';
+import { MasonryContainerData, VisibleItem } from './types';
 import { Dimension, MasonryBreakpoint } from '@/types';
 import { throttle } from '@/utils';
 
 type ItemBase = Dimension & { id: string | number };
 
 type VirtualizedMasonryProps<T extends ItemBase> = {
+  optimisticHeight?: number;
   items: T[];
   breakpoints: MasonryBreakpoint[];
-  render: (data: { data: T }) => React.ReactNode;
+  render: (data: {
+    data: T;
+    container: MasonryContainerData;
+  }) => React.ReactNode;
   BottomComponent?: React.ReactElement;
+};
+
+export type MasonryRef = {
+  /**
+   * Allows to scroll in masonry grid
+   * @param position
+   */
+  scrollTo(position: number): void;
 };
 
 /**
@@ -26,21 +46,27 @@ type VirtualizedMasonryProps<T extends ItemBase> = {
  *  items - all items that shall be rendered
  *  render - function for rendering a child item
  */
-export function VirtualizedMasonry<T extends ItemBase>({
-  breakpoints,
-  items,
-  render,
-  BottomComponent,
-}: VirtualizedMasonryProps<T>) {
+const UnforwardedVirtualizedMasonry = function VirtualizedMasonry<
+  T extends ItemBase
+>(
+  {
+    breakpoints,
+    items,
+    optimisticHeight,
+    render,
+    BottomComponent,
+  }: VirtualizedMasonryProps<T>,
+  ref: Ref<MasonryRef>
+) {
   if (!breakpoints.length) {
     throw new Error('At least 1 breakpoint should be provided');
   }
 
-  const [totalHeight, setTotalHeight] = useState(0);
+  const [totalHeight, setTotalHeight] = useState(optimisticHeight ?? 0);
   const [visibleItems, setVisibleItems] = useState<VisibleItem[]>([]);
   const scrollViewRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!scrollViewRef.current) {
       return;
     }
@@ -48,7 +74,7 @@ export function VirtualizedMasonry<T extends ItemBase>({
     let scrollViewObserver: ResizeObserver | undefined = undefined;
 
     // Function to calculate visible items
-    const calculateVisibleItems = () => {
+    const computeVisibleItems = () => {
       const { visibleItems, totalHeight } = computeMasonryLayout({
         containerTop: scrollView.scrollTop,
         containerHeight: scrollView.clientHeight,
@@ -61,7 +87,9 @@ export function VirtualizedMasonry<T extends ItemBase>({
       setTotalHeight(totalHeight);
     };
 
-    const throttled = throttle(calculateVisibleItems, 50);
+    computeVisibleItems();
+
+    const throttled = throttle(computeVisibleItems, 50);
 
     const eventAbortController = new AbortController();
     scrollView.addEventListener('scroll', throttled, {
@@ -84,6 +112,21 @@ export function VirtualizedMasonry<T extends ItemBase>({
     };
   }, [breakpoints, items]);
 
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        scrollTo(positionTop: number) {
+          scrollViewRef.current?.scrollTo({
+            top: positionTop,
+            behavior: 'instant',
+          });
+        },
+      };
+    },
+    []
+  );
+
   return (
     <VirtualizedMasonryScrollView ref={scrollViewRef}>
       <VirtualizedMasonryContainer
@@ -93,10 +136,17 @@ export function VirtualizedMasonry<T extends ItemBase>({
       >
         {visibleItems.map(({ itemIndex, style }) => {
           const data = items[itemIndex];
+          const scrollView = scrollViewRef.current!;
 
           return (
             <VirtualizedMasonryItem key={data.id} style={style}>
-              {render({ data })}
+              {render({
+                data,
+                container: {
+                  top: scrollView.scrollTop,
+                  height: scrollView.scrollHeight,
+                },
+              })}
             </VirtualizedMasonryItem>
           );
         })}
@@ -104,4 +154,13 @@ export function VirtualizedMasonry<T extends ItemBase>({
       {BottomComponent}
     </VirtualizedMasonryScrollView>
   );
-}
+};
+
+// Masonry is Generic Component and we also need to pass ref argument
+// and it's not possible to declare generic argument together with forwardRef function
+// This is one way to resolve the issue
+export const VirtualizedMasonry = forwardRef(UnforwardedVirtualizedMasonry) as <
+  T extends ItemBase
+>(
+  p: VirtualizedMasonryProps<T> & { ref?: Ref<MasonryRef> }
+) => ReactElement;
