@@ -4,9 +4,10 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '@/services/api/queryClient';
 import { APP_ROUTES } from './global/routes';
 
-import '@/App.css';
 import { Loading } from './components/Loading';
 import { PageLayout } from './components/ui';
+
+import '@/App.css';
 
 const PhotosViewPage = lazy(() => import('@/components/PhotosViewPage'));
 const PhotoDetailsPage = lazy(() => import('@/components/PhotoDetailsPage'));

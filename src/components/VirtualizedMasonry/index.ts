@@ -1,2 +1,6 @@
 export { VirtualizedMasonry, type MasonryRef } from './VirtualizedMasonry';
-export type { MasonryContainerData } from './types';
+export type {
+  MasonryContainerData,
+  MasonryBottomComponentProps,
+  MasonryRenderItemProps,
+} from './types';

@@ -7,6 +7,7 @@ export const throttle = <TFunc extends (...args: unknown[]) => void>(
 
   return function (...args: Parameters<TFunc>) {
     const now = new Date().getTime();
+
     if (now - lastRun >= waitMs) {
       f(...args);
       lastRun = now;

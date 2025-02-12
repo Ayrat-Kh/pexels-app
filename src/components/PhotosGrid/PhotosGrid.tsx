@@ -36,7 +36,7 @@ export const PhotosGrid = () => {
       ref={masonryRef}
       breakpoints={PHOTOS_GRID_BREAKPOINTS}
       items={data}
-      render={PhotosGridItem}
+      renderItem={PhotosGridItem}
       BottomComponent={LoadMore}
     />
   );

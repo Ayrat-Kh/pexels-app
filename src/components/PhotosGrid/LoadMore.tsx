@@ -1,15 +1,12 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useFetchMorePhotos } from './hooks';
 import { loadMoreMarginTolerance } from './constants';
-
-type LoadMoreProps = {
-  scrollView: HTMLElement | null;
-};
+import { MasonryBottomComponentProps } from '../VirtualizedMasonry';
 
 /**
  * Component for detection end of list and firing next fetch event
  */
-export const LoadMore = ({ scrollView }: LoadMoreProps) => {
+export const LoadMore = ({ scrollView }: MasonryBottomComponentProps) => {
   const fetchMore = useFetchMorePhotos();
 
   const observerRef = useRef<IntersectionObserver | null>(null);

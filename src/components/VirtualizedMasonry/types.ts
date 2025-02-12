@@ -13,3 +13,12 @@ export type VisibleItem = {
  * height - total height with all images
  */
 export type MasonryContainerData = { top: number; height: number };
+
+export type MasonryBottomComponentProps = {
+  scrollView: HTMLDivElement | null;
+};
+
+export type MasonryRenderItemProps<T> = {
+  data: T;
+  container: MasonryContainerData;
+};

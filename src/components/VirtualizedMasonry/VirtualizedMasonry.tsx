@@ -15,7 +15,11 @@ import {
   VirtualizedMasonryScrollView,
 } from './VirtualizedMasonry.styles';
 import { computeMasonryLayout } from './utils';
-import { MasonryContainerData, VisibleItem } from './types';
+import {
+  MasonryBottomComponentProps,
+  MasonryRenderItemProps,
+  VisibleItem,
+} from './types';
 import { Dimension, MasonryBreakpoint } from '@/types';
 import { throttle } from '@/utils';
 
@@ -30,11 +34,12 @@ type VirtualizedMasonryProps<T extends ItemBase> = {
    * Layout breakpoint with specifying how many columns should rendered and a gap between them
    */
   breakpoints: MasonryBreakpoint[];
-  render: (data: { data: T; container: MasonryContainerData }) => ReactNode;
+
+  renderItem: (data: MasonryRenderItemProps<T>) => ReactNode;
   /**
    * Placeholder for rendering item at the end of list
    */
-  BottomComponent?: FC<{ scrollView: HTMLDivElement | null }>;
+  BottomComponent?: FC<MasonryBottomComponentProps>;
 
   /**
    * Allows to set initial height and do an immediate scroll even though visible area is still being processed.
@@ -70,7 +75,7 @@ const UnforwardedVirtualizedMasonry = function VirtualizedMasonry<
     breakpoints,
     items,
     optimisticHeight,
-    render,
+    renderItem,
     BottomComponent,
     tolerance = 300,
   }: VirtualizedMasonryProps<T>,
@@ -159,7 +164,7 @@ const UnforwardedVirtualizedMasonry = function VirtualizedMasonry<
 
           return (
             <VirtualizedMasonryItem key={data.id} style={style}>
-              {render({
+              {renderItem({
                 data,
                 container: {
                   top: scrollView.scrollTop,
