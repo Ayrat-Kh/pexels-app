@@ -48,3 +48,11 @@ To create a production build, run:
 ```sh
 npm run build
 ```
+
+## Test
+
+To run tests:
+
+```sh
+npm run test
+```
