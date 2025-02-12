@@ -1,4 +1,4 @@
-import { Link, Navigate, useLocation, useParams } from 'react-router';
+import { Link, Navigate, useParams } from 'react-router';
 
 import { PhotoDetailsParams } from '@/types/routeParams';
 import { useFetchPhotoById } from '@/hooks/api/useFetchPhotoById';
@@ -11,11 +11,12 @@ import {
   PhotoDetailsSection,
   PhotoDetails,
   PhotoDetailsImg,
+  ImageLink,
+  PhotoDetailsInner,
 } from './PhotoDetailsPage.styles';
 
 export const PhotoDetailsPage = () => {
   const { photoId } = useParams<PhotoDetailsParams>();
-  const { state } = useLocation();
 
   const { isLoading, data: photoDetails, error } = useFetchPhotoById(photoId);
 
@@ -36,20 +37,12 @@ export const PhotoDetailsPage = () => {
   }
 
   return (
-    <>
-      <Link
-        to={appRoutes.photosView.url}
-        state={{ containerTop: state?.containerTop }}
-      >
-        To Photos List
-      </Link>
-      <PhotoDetails>
+    <PhotoDetails>
+      <PhotoDetailsInner>
+        <Link to={appRoutes.photosView.url}>To Photos List</Link>
         <PhotoDetailsSection>
           <h1>{photoDetails.photographer}</h1>
-          <PhotoDetailsImg
-            src={photoDetails.src.large}
-            alt={photoDetails.alt}
-          />
+
           <DescriptionList>
             <li>
               <DescriptionListItemLabel>Id:</DescriptionListItemLabel>
@@ -65,17 +58,22 @@ export const PhotoDetailsPage = () => {
             </li>
             <li>
               <DescriptionListItemLabel>URL: </DescriptionListItemLabel>
-              <a
+              <ImageLink
                 href={photoDetails.url}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 {photoDetails.url}
-              </a>
+              </ImageLink>
             </li>
           </DescriptionList>
+
+          <PhotoDetailsImg
+            src={photoDetails.src.large}
+            alt={photoDetails.alt}
+          />
         </PhotoDetailsSection>
-      </PhotoDetails>
-    </>
+      </PhotoDetailsInner>
+    </PhotoDetails>
   );
 };

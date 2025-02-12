@@ -6,11 +6,11 @@ export const PhotoDetails = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 20px;
+  margin-top: 20px;
 `;
 
 export const PhotoDetailsSection = styled.div`
-  max-width: 1200px;
+  margin-top: 20px;
   padding: 20px;
   background: #fff;
   border-radius: 12px;
@@ -34,14 +34,14 @@ export const DescriptionList = styled.ul`
     color: #53b365;
     margin-top: 4px;
   }
+`;
 
-  a {
-    color: #007bff;
-    text-decoration: none;
+export const ImageLink = styled.a`
+  color: #007bff;
+  text-decoration: none;
 
-    &:hover {
-      text-decoration: underline;
-    }
+  &:hover {
+    text-decoration: underline;
   }
 `;
 
@@ -49,4 +49,9 @@ export const DescriptionListItemLabel = styled.span`
   color: #25482d;
   min-width: 48px;
   display: inline-block;
+`;
+
+export const PhotoDetailsInner = styled.div`
+  max-width: 1200px;
+  width: calc(100% - 40px);
 `;

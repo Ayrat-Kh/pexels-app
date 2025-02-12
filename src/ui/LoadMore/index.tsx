@@ -1,1 +1,1 @@
-export * from './LoadMore';
+export { LoadMore } from './LoadMore';

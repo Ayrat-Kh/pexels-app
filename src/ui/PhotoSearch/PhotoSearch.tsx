@@ -1,22 +1,20 @@
-import { useRef } from "react";
-import "./SearchBar.scss";
-import { useGlobalContext } from "../context/GlobalContext";
+import { useRef } from 'react';
+import './SearchBar.scss';
 
 function SearchBar() {
   const searchRef = useRef<HTMLInputElement>(null);
-  const { setQuery } = useGlobalContext();
 
   const handleSearch = (reset?: boolean) => {
     if (reset) {
-      setQuery("");
-      if (searchRef.current) searchRef.current.value = "";
+      // setQuery('');
+      if (searchRef.current) searchRef.current.value = '';
     } else {
-      setQuery(searchRef.current?.value || "");
+      // setQuery(searchRef.current?.value || '');
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") handleSearch();
+    if (e.key === 'Enter') handleSearch();
   };
 
   return (
