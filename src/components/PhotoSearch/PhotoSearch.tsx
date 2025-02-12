@@ -4,26 +4,21 @@ import {
   PhotoSearchContainer,
   PhotoSearchInput,
 } from './PhotoSearch.styles';
-import { useSearchParams } from 'react-router';
+
+import { useSearchQueryParam } from '@/hooks/useSearchQueryParam';
 
 export const PhotoSearch = () => {
   const searchRef = useRef<HTMLInputElement>(null);
 
-  const [, setQuery] = useSearchParams();
+  const { setQuery } = useSearchQueryParam();
 
   const handleSearch = (reset?: boolean) => {
     if (reset) {
-      setQuery({});
+      setQuery('');
       if (searchRef.current) searchRef.current.value = '';
     } else {
-      setQuery({
-        q: searchRef.current?.value || '',
-      });
+      setQuery(searchRef.current?.value || '');
     }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') handleSearch();
   };
 
   return (
@@ -33,7 +28,7 @@ export const PhotoSearch = () => {
           ref={searchRef}
           type="text"
           placeholder="Search for photos..."
-          onKeyUp={handleKeyPress}
+          onChange={() => handleSearch()}
         />
 
         <button onClick={() => handleSearch(true)}>Reset</button>

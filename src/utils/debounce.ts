@@ -1,4 +1,5 @@
-export const debounce = <TFunc extends (...args: unknown[]) => void>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const debounce = <TFunc extends (...args: any[]) => void>(
   f: TFunc,
   delayMs: number
 ) => {

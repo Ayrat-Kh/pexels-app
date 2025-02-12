@@ -22,7 +22,7 @@
 2. Install dependencies:
 
    ```sh
-   pnpm install
+   npm install
    ```
 
 3. Set up your API key:
@@ -38,7 +38,7 @@
 4. Start the development server:
 
    ```sh
-   pnpm dev
+   npm run dev
    ```
 
 ## Build
@@ -46,5 +46,5 @@
 To create a production build, run:
 
 ```sh
-pnpm build
+npm run build
 ```

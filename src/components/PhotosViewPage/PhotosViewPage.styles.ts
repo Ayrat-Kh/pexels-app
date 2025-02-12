@@ -1,6 +1,6 @@
-import { styled } from '@linaria/react';
+import { styled } from 'styled-components';
 
-export const PhotosViewContainer = styled.div`
-  height: 100%;
-  width: 100%;
-`;
+export const PhotosViewContainer = styled.div({
+  height: '100%',
+  width: '100%',
+});
