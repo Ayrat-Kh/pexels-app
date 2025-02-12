@@ -5,15 +5,23 @@ import { queryClient } from '@/services/api/queryClient';
 import { appRoutes } from './global/routes';
 
 import '@/App.css';
+import { Loading } from './components/Loading';
+import { PageLayout } from './components/ui';
 
-const PhotosViewPage = lazy(() => import('@/ui/PhotosViewPage'));
-const PhotoDetailsPage = lazy(() => import('@/ui/PhotoDetailsPage'));
+const PhotosViewPage = lazy(() => import('@/components/PhotosViewPage'));
+const PhotoDetailsPage = lazy(() => import('@/components/PhotoDetailsPage'));
 
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <PageLayout isCentered>
+              <Loading />
+            </PageLayout>
+          }
+        >
           <Routes>
             <Route
               path={appRoutes.photosView.url}

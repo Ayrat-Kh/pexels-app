@@ -2,21 +2,21 @@ import { styled } from '@linaria/react';
 
 export const PhotoSearchContainer = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 20px 0;
+  gap: 8px;
+  margin-bottom: 20px;
 `;
 
 export const PhotoSearchBar = styled.div`
   position: relative;
   display: flex;
-  width: 100%;
+
   align-items: center;
   border-radius: 4px;
   padding: 0.5rem;
 `;
 
 export const PhotoSearchInput = styled.input`
+  flex: 1;
   width: 100%;
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;

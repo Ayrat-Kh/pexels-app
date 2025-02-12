@@ -35,14 +35,8 @@ export const PhotoSearch = () => {
           placeholder="Search for photos..."
           onKeyUp={handleKeyPress}
         />
-        <div className="search-actions">
-          <button className="search-button" onClick={() => handleSearch()}>
-            Search
-          </button>
-          <button className="reset-button" onClick={() => handleSearch(true)}>
-            Reset
-          </button>
-        </div>
+
+        <button onClick={() => handleSearch(true)}>Reset</button>
       </PhotoSearchBar>
     </PhotoSearchContainer>
   );

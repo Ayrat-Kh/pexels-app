@@ -29,6 +29,7 @@ export const PhotosGrid = () => {
     }
 
     masonryRef.current?.scrollTo(scrollTop);
+
     reset();
   }, [scrollTop, isLoading, reset]);
 

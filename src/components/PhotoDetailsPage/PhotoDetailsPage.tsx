@@ -9,11 +9,12 @@ import {
   DescriptionList,
   DescriptionListItemLabel,
   PhotoDetailsSection,
-  PhotoDetails,
   PhotoDetailsImg,
   ImageLink,
   PhotoDetailsInner,
 } from './PhotoDetailsPage.styles';
+import { Loading } from '../Loading';
+import { PageLayout } from '../ui';
 
 export const PhotoDetailsPage = () => {
   const { photoId } = useParams<PhotoDetailsParams>();
@@ -25,21 +26,29 @@ export const PhotoDetailsPage = () => {
   }
 
   if (isLoading) {
-    return <PhotoDetails>Loading...</PhotoDetails>;
+    return (
+      <PageLayout isCentered>
+        <Loading />
+      </PageLayout>
+    );
   }
 
   if (error || !photoDetails) {
     return (
-      <AppError
-        message={error instanceof NotFoundError ? 'Not found' : 'Unknown error'}
-      />
+      <PageLayout isCentered>
+        <AppError
+          message={
+            error instanceof NotFoundError ? 'Not found' : 'Unknown error'
+          }
+        />
+      </PageLayout>
     );
   }
 
   return (
-    <PhotoDetails>
+    <PageLayout align="center">
       <PhotoDetailsInner>
-        <Link to={appRoutes.photosView.url}>To Photos List</Link>
+        <Link to={appRoutes.photosView.url}>Back to Photos</Link>
         <PhotoDetailsSection>
           <h1>{photoDetails.photographer}</h1>
 
@@ -69,11 +78,11 @@ export const PhotoDetailsPage = () => {
           </DescriptionList>
 
           <PhotoDetailsImg
-            src={photoDetails.src.large}
+            src={photoDetails.src.original}
             alt={photoDetails.alt}
           />
         </PhotoDetailsSection>
       </PhotoDetailsInner>
-    </PhotoDetails>
+    </PageLayout>
   );
 };

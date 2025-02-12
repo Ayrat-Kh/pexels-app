@@ -1,14 +1,5 @@
 import { styled } from '@linaria/react';
 
-export const PhotoDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  margin-top: 20px;
-`;
-
 export const PhotoDetailsSection = styled.div`
   margin-top: 20px;
   padding: 20px;
@@ -52,6 +43,6 @@ export const DescriptionListItemLabel = styled.span`
 `;
 
 export const PhotoDetailsInner = styled.div`
-  max-width: 1200px;
+  max-width: 700px;
   width: calc(100% - 40px);
 `;

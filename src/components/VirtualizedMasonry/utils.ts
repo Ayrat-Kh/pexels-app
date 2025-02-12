@@ -59,7 +59,10 @@ export const computeMasonryLayout = <T extends Dimension>({
     const elementBottom = elementTop + elementHeight;
 
     // Check if item is within the visible area
-    if (elementBottom >= containerTop && elementTop <= containerBottom) {
+    if (
+      elementBottom >= containerTop - 500 &&
+      elementTop <= containerBottom + 500
+    ) {
       result.push({
         itemIndex: i,
         style: {
