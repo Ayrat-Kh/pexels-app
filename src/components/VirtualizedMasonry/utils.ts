@@ -14,6 +14,7 @@ type ComputeMasonryLayoutParams<T extends Dimension> = {
 type ComputeMasonryLayoutResult = {
   visibleItems: VisibleItem[];
   totalHeight: number;
+  columnCount: number;
 };
 
 /**
@@ -34,6 +35,7 @@ export const computeMasonryLayout = <T extends Dimension>({
   containerWidth,
   breakpoints,
   items,
+  tolerance,
 }: ComputeMasonryLayoutParams<T>): ComputeMasonryLayoutResult => {
   const result: VisibleItem[] = [];
 
@@ -68,8 +70,8 @@ export const computeMasonryLayout = <T extends Dimension>({
 
     // Check if item is within the visible area
     if (
-      elementBottom >= containerTop - 500 &&
-      elementTop <= containerBottom + 500
+      elementBottom >= containerTop - tolerance &&
+      elementTop <= containerBottom + tolerance
     ) {
       result.push({
         itemIndex: i,
@@ -87,6 +89,8 @@ export const computeMasonryLayout = <T extends Dimension>({
 
   return {
     visibleItems: result,
-    totalHeight: Math.max.apply(null, totalHeightByColumn),
+    // - last gap
+    totalHeight: Math.max.apply(null, totalHeightByColumn) - gap,
+    columnCount,
   };
 };

@@ -1,0 +1,106 @@
+import { expect, test } from 'vitest';
+import { computeMasonryLayout } from './utils';
+
+const mockedBreakpoints = [
+  { break: 150, gap: 5, columnCount: 2 },
+  { break: 350, gap: 5, columnCount: 3 },
+  { gap: 5, columnCount: 4 },
+];
+
+const renderItems = [
+  { width: 100, height: 40, id: '1' },
+  { width: 100, height: 40, id: '2' },
+  { width: 100, height: 40, id: '3' },
+  { width: 100, height: 40, id: '4' },
+  { width: 100, height: 40, id: '5' },
+  { width: 100, height: 40, id: '6' },
+  { width: 100, height: 40, id: '7' },
+  { width: 100, height: 40, id: '8' },
+  { width: 100, height: 40, id: '9' },
+];
+
+test('should compute 3 column grid', () => {
+  const { visibleItems, columnCount, totalHeight } = computeMasonryLayout({
+    containerTop: 50,
+    containerHeight: 50,
+    containerWidth: 310,
+    breakpoints: mockedBreakpoints,
+    items: renderItems,
+    tolerance: 0,
+  });
+
+  expect(columnCount).toEqual(3);
+  expect(totalHeight).toEqual(130);
+  expect(visibleItems).toHaveLength(6);
+  expect(visibleItems).toEqual([
+    // second rwo
+    {
+      style: {
+        left: 0,
+        top: 45, // 40 from first row + 5 gap
+        width: 100,
+        height: 40,
+      },
+      itemIndex: 3,
+    },
+    {
+      style: {
+        left: 105, // 100 from first column + 5 gap
+        top: 45, // 40 from first row + 5 gap
+        width: 100,
+        height: 40,
+      },
+      itemIndex: 4,
+    },
+    {
+      style: {
+        left: 210, // 205 from 2 prev columns + 5 gap
+        top: 45,
+        width: 100,
+        height: 40,
+      },
+      itemIndex: 5,
+    },
+    // third row
+    {
+      style: {
+        left: 0,
+        top: 90,
+        width: 100,
+        height: 40,
+      },
+      itemIndex: 6,
+    },
+    {
+      style: {
+        left: 105,
+        top: 90,
+        width: 100,
+        height: 40,
+      },
+      itemIndex: 7,
+    },
+    {
+      style: {
+        left: 210,
+        top: 90,
+        width: 100,
+        height: 40,
+      },
+      itemIndex: 8,
+    },
+  ]);
+});
+
+test('should compute 2 column grid', () => {
+  const { columnCount } = computeMasonryLayout({
+    containerTop: 50,
+    containerHeight: 50,
+    containerWidth: 140,
+    breakpoints: mockedBreakpoints,
+    items: renderItems,
+    tolerance: 0,
+  });
+
+  expect(columnCount).toEqual(2);
+});
