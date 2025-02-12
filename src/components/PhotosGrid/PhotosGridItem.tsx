@@ -1,4 +1,4 @@
-import { generatePath, Link, useLocation } from 'react-router';
+import { generatePath, Link } from 'react-router';
 import { appRoutes } from '@/global/routes';
 import { PhotoResult } from '@/types';
 import { PhotoImage } from './PhotosGridItem.styles';
@@ -17,8 +17,6 @@ type PhotosGridItem = {
 export const PhotosGridItem = ({ data, container }: PhotosGridItem) => {
   const { src, alt, id } = data;
 
-  const { search } = useLocation();
-
   const handleClick = () => {
     sessionStorage.setItem(SCROLL_POSITION_KEY, JSON.stringify(container));
   };
@@ -31,7 +29,7 @@ export const PhotosGridItem = ({ data, container }: PhotosGridItem) => {
         pathname: generatePath(appRoutes.photoDetails.url, {
           photoId: `${id}`,
         }),
-        search,
+        search: location.search,
       }}
       onClick={handleClick}
     >

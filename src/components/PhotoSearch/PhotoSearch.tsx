@@ -10,10 +10,10 @@ import { useSearchQueryParam } from '@/hooks/useSearchQueryParam';
 export const PhotoSearch = () => {
   const searchRef = useRef<HTMLInputElement>(null);
 
-  const { q, setQuery } = useSearchQueryParam();
+  const { q, setQuery, setDebouncedQuery } = useSearchQueryParam();
 
   const handleSearch = () => {
-    setQuery(searchRef.current?.value || '');
+    setDebouncedQuery(searchRef.current?.value || '');
   };
 
   const handleReset = () => {

@@ -1,6 +1,7 @@
 import { SCROLL_POSITION_KEY } from '@/global/constants';
 import { useCallback, useState } from 'react';
 import { MasonryContainerData } from '../VirtualizedMasonry';
+import { useSearchFetchPhotos } from '@/hooks';
 
 export const useOptimisticScrollValue = () => {
   const [{ optimisticHeight, scrollTop }, setOPtimisticValue] = useState<{
@@ -35,4 +36,14 @@ export const useOptimisticScrollValue = () => {
     scrollTop,
     reset,
   };
+};
+
+export const useFetchMorePhotos = () => {
+  const { hasNextPage, fetchNextPage } = useSearchFetchPhotos();
+
+  return useCallback(async () => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, hasNextPage]);
 };

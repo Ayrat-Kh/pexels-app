@@ -1,6 +1,8 @@
-import React, {
+import {
+  FC,
   forwardRef,
   ReactElement,
+  ReactNode,
   Ref,
   useImperativeHandle,
   useLayoutEffect,
@@ -28,14 +30,11 @@ type VirtualizedMasonryProps<T extends ItemBase> = {
    * Layout breakpoint with specifying how many columns should rendered and a gap between them
    */
   breakpoints: MasonryBreakpoint[];
-  render: (data: {
-    data: T;
-    container: MasonryContainerData;
-  }) => React.ReactNode;
+  render: (data: { data: T; container: MasonryContainerData }) => ReactNode;
   /**
    * Placeholder for rendering item at the end of list
    */
-  BottomComponent?: React.ReactElement;
+  BottomComponent?: FC<{ scrollView: HTMLDivElement | null }>;
 
   /**
    * Allows to set initial height and do an immediate scroll even though visible area is still being processed.
@@ -148,7 +147,7 @@ const UnforwardedVirtualizedMasonry = function VirtualizedMasonry<
   );
 
   return (
-    <VirtualizedMasonryScrollView ref={scrollViewRef}>
+    <VirtualizedMasonryScrollView ref={scrollViewRef} id="scrollViewRef">
       <VirtualizedMasonryContainer
         style={{
           height: `${totalHeight}px`,
@@ -171,7 +170,10 @@ const UnforwardedVirtualizedMasonry = function VirtualizedMasonry<
           );
         })}
       </VirtualizedMasonryContainer>
-      {BottomComponent}
+      <div>element</div>
+      {BottomComponent && (
+        <BottomComponent scrollView={scrollViewRef.current} />
+      )}
     </VirtualizedMasonryScrollView>
   );
 };
