@@ -3,6 +3,12 @@ import { BaseApiOptions } from '@/types/api';
 import { pexelRequest } from './pexelRequest';
 import { PEXEL_PAGE_SIZE } from '@/global/api';
 
+/**
+ * Fetch photos
+ * @param pageIndex - default 1
+ * @param { signal } - signal from AbortController
+ * @returns paginated photos result
+ */
 export function getPhotos(
   pageIndex = 1,
   { signal }: BaseApiOptions
@@ -11,6 +17,12 @@ export function getPhotos(
   return pexelRequest<PhotosResult>(URL, { method: 'GET', signal });
 }
 
+/**
+ * Fetch photos
+ * @param query - search query, non empty string
+ * @param { signal } - signal from AbortController
+ * @returns paginated photos result
+ */
 export function searchPhotos(
   query: string,
   pageIndex = 1,
@@ -20,6 +32,12 @@ export function searchPhotos(
   return pexelRequest<PhotosResult>(URL, { method: 'GET', signal });
 }
 
+/**
+ * Fetch photos by d
+ * @param id - photo id
+ * @param { signal } - signal from AbortController
+ * @returns photo data
+ */
 export function getPhotoById(
   id: string,
   { signal }: BaseApiOptions

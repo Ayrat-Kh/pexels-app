@@ -6,6 +6,9 @@ type LoadMoreProps = {
   scrollView: HTMLElement | null;
 };
 
+/**
+ * Component for detection end of list and firing next fetch event
+ */
 export const LoadMore = ({ scrollView }: LoadMoreProps) => {
   const fetchMore = useFetchMorePhotos();
 
@@ -21,7 +24,6 @@ export const LoadMore = ({ scrollView }: LoadMoreProps) => {
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            console.log(entry);
             if (entry.isIntersecting) {
               fetchMore();
             }

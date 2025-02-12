@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { breakpoints } from '@/global/constants';
+import { PHOTOS_GRID_BREAKPOINTS } from '@/global/constants';
 import { VirtualizedMasonry, MasonryRef } from '../VirtualizedMasonry';
 import { LoadMore } from './LoadMore';
 import { PhotosGridItem } from './PhotosGridItem';
@@ -13,6 +13,9 @@ export const PhotosGrid = () => {
 
   const { optimisticHeight, scrollTop, reset } = useOptimisticScrollValue();
 
+  // when the user goes back from the details page
+  // and if there is memoed scroll position
+  // restore it and clean the memo
   useEffect(() => {
     if (!scrollTop || isLoading) {
       return;
@@ -31,7 +34,7 @@ export const PhotosGrid = () => {
     <VirtualizedMasonry
       optimisticHeight={optimisticHeight}
       ref={masonryRef}
-      breakpoints={breakpoints}
+      breakpoints={PHOTOS_GRID_BREAKPOINTS}
       items={data}
       render={PhotosGridItem}
       BottomComponent={LoadMore}

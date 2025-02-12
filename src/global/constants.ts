@@ -1,6 +1,6 @@
 import { MasonryBreakpoint } from '@/types';
 
-export const breakpoints: MasonryBreakpoint[] = [
+export const PHOTOS_GRID_BREAKPOINTS: MasonryBreakpoint[] = [
   {
     gap: 15,
     break: 450,

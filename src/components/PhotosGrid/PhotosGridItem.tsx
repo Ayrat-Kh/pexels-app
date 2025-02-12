@@ -1,5 +1,5 @@
 import { generatePath, Link } from 'react-router';
-import { appRoutes } from '@/global/routes';
+import { APP_ROUTES } from '@/global/routes';
 import { PhotoResult } from '@/types';
 import { PhotoImage } from './PhotosGridItem.styles';
 import { SCROLL_POSITION_KEY } from '@/global/constants';
@@ -26,7 +26,7 @@ export const PhotosGridItem = ({ data, container }: PhotosGridItem) => {
   return (
     <Link
       to={{
-        pathname: generatePath(appRoutes.photoDetails.url, {
+        pathname: generatePath(APP_ROUTES.photoDetails.url, {
           photoId: `${id}`,
         }),
         search: location.search,

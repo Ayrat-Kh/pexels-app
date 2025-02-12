@@ -4,7 +4,7 @@ import { PhotoDetailsParams } from '@/types/routeParams';
 import { useFetchPhotoById } from '@/hooks/api/useFetchPhotoById';
 import { NotFoundError } from '@/global/errors';
 import { AppError } from '../AppError';
-import { appRoutes } from '@/global/routes';
+import { APP_ROUTES } from '@/global/routes';
 import {
   DescriptionList,
   DescriptionListItemLabel,
@@ -24,7 +24,15 @@ export const PhotoDetailsPage = () => {
   const { isLoading, data: photoDetails, error } = useFetchPhotoById(photoId);
 
   if (!photoId) {
-    return <Navigate to={appRoutes.photosView.url} replace />;
+    return (
+      <Navigate
+        to={{
+          pathname: APP_ROUTES.photosView.url,
+          search,
+        }}
+        replace
+      />
+    );
   }
 
   if (isLoading) {
@@ -52,7 +60,7 @@ export const PhotoDetailsPage = () => {
       <PhotoDetailsInner>
         <Link
           to={{
-            pathname: appRoutes.photosView.url,
+            pathname: APP_ROUTES.photosView.url,
             search,
           }}
         >

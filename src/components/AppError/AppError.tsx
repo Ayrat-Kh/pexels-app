@@ -1,4 +1,4 @@
-import { appRoutes } from '@/global/routes';
+import { APP_ROUTES } from '@/global/routes';
 import { Link } from 'react-router';
 
 type AppErrorProps = {
@@ -9,7 +9,7 @@ export const AppError = ({ message }: AppErrorProps) => {
   return (
     <>
       <h1>{message}</h1>
-      <Link to={appRoutes.photosView.url}>Go Back</Link>
+      <Link to={APP_ROUTES.photosView.url}>Go Back</Link>
     </>
   );
 };

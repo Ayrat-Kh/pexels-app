@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router';
 import { Suspense, lazy } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '@/services/api/queryClient';
-import { appRoutes } from './global/routes';
+import { APP_ROUTES } from './global/routes';
 
 import '@/App.css';
 import { Loading } from './components/Loading';
@@ -24,11 +24,11 @@ const App = () => {
         >
           <Routes>
             <Route
-              path={appRoutes.photosView.url}
+              path={APP_ROUTES.photosView.url}
               element={<PhotosViewPage />}
             />
             <Route
-              path={appRoutes.photoDetails.url}
+              path={APP_ROUTES.photoDetails.url}
               element={<PhotoDetailsPage />}
             />
           </Routes>

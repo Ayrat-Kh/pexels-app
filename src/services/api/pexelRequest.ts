@@ -22,7 +22,6 @@ export const pexelRequest = async <TResponse>(
   }
 
   if (response.status === 404) {
-    console.log('throw NotFoundError');
     throw new NotFoundError();
   }
 
