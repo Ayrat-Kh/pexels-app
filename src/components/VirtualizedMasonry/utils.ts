@@ -8,6 +8,7 @@ type ComputeMasonryLayoutParams<T extends Dimension> = {
   containerWidth: number;
   items: T[];
   breakpoints: MasonryBreakpoint[];
+  tolerance: number;
 };
 
 type ComputeMasonryLayoutResult = {
@@ -18,7 +19,14 @@ type ComputeMasonryLayoutResult = {
 /**
  * Computes items that should be rendered and their positions for a masonry
  * @param
+ *  - containerTop - current container scroll position
+ *  - containerHeight - container height
+ *  - containerWidth - container width
+ *  - breakpoints - array of breakpoints, will be sorted by width. Empty width means last and a fallback value
+ *  - items - list of items
  * @returns
+ *  - totalHeight - total container scroll height
+ *  - information about items that should be rendered
  */
 export const computeMasonryLayout = <T extends Dimension>({
   containerTop,

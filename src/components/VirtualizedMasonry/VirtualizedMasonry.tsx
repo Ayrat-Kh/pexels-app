@@ -20,14 +20,32 @@ import { throttle } from '@/utils';
 type ItemBase = Dimension & { id: string | number };
 
 type VirtualizedMasonryProps<T extends ItemBase> = {
-  optimisticHeight?: number;
+  /**
+   * Rendering items
+   */
   items: T[];
+  /**
+   * Layout breakpoint with specifying how many columns should rendered and a gap between them
+   */
   breakpoints: MasonryBreakpoint[];
   render: (data: {
     data: T;
     container: MasonryContainerData;
   }) => React.ReactNode;
+  /**
+   * Placeholder for rendering item at the end of list
+   */
   BottomComponent?: React.ReactElement;
+
+  /**
+   * Allows to set initial height and do an immediate scroll even though visible area is still being processed.
+   */
+  optimisticHeight?: number;
+
+  /**
+   * How many pixels should be considered as visible beyond viewport. Default 300
+   */
+  tolerance?: number;
 };
 
 export type MasonryRef = {
@@ -55,6 +73,7 @@ const UnforwardedVirtualizedMasonry = function VirtualizedMasonry<
     optimisticHeight,
     render,
     BottomComponent,
+    tolerance = 300,
   }: VirtualizedMasonryProps<T>,
   ref: Ref<MasonryRef>
 ) {
@@ -81,6 +100,7 @@ const UnforwardedVirtualizedMasonry = function VirtualizedMasonry<
         containerWidth: scrollView.clientWidth,
         breakpoints,
         items,
+        tolerance,
       });
 
       setVisibleItems(visibleItems);
@@ -89,7 +109,7 @@ const UnforwardedVirtualizedMasonry = function VirtualizedMasonry<
 
     computeVisibleItems();
 
-    const throttled = throttle(computeVisibleItems, 50);
+    const throttled = throttle(computeVisibleItems, 16);
 
     const eventAbortController = new AbortController();
     scrollView.addEventListener('scroll', throttled, {
@@ -110,7 +130,7 @@ const UnforwardedVirtualizedMasonry = function VirtualizedMasonry<
       eventAbortController.abort();
       scrollViewObserver?.disconnect();
     };
-  }, [breakpoints, items]);
+  }, [breakpoints, items, tolerance]);
 
   useImperativeHandle(
     ref,
