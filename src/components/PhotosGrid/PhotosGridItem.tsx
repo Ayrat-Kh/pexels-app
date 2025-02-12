@@ -15,13 +15,13 @@ type PhotosGridItem = {
 };
 
 export const PhotosGridItem = ({ data, container }: PhotosGridItem) => {
-  const { src, alt, id } = data;
+  const { src, alt, id, width, height } = data;
 
   const handleClick = () => {
     sessionStorage.setItem(SCROLL_POSITION_KEY, JSON.stringify(container));
   };
 
-  const srcSet = [`${src.large} 900w`, `${src.large2x}`].join(', ');
+  const srcSet = [`${src.medium} 900w`, `${src.large}`].join(', ');
 
   return (
     <Link
@@ -33,7 +33,13 @@ export const PhotosGridItem = ({ data, container }: PhotosGridItem) => {
       }}
       onClick={handleClick}
     >
-      <PhotoImage srcSet={srcSet} sizes={imgSizes} alt={alt} />
+      <PhotoImage
+        srcSet={srcSet}
+        sizes={imgSizes}
+        alt={alt}
+        width={width}
+        height={height}
+      />
     </Link>
   );
 };
