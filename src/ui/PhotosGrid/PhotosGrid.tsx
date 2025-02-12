@@ -5,10 +5,15 @@ import { VirtualizedMasonry, MasonryRef } from '../VirtualizedMasonry';
 import { LoadMore } from '../LoadMore';
 import { PhotosGridItem } from './PhotosGridItem';
 import { useOptimisticScrollValue } from './hooks.';
+import { useSearchParams } from 'react-router';
 
 export const PhotosGrid = () => {
   const masonryRef = useRef<MasonryRef>(null);
-  const { data, isLoading, fetchNextPage, hasNextPage } = useFetchPhotos();
+  const [searchParams] = useSearchParams();
+
+  const { data, isLoading, fetchNextPage, hasNextPage } = useFetchPhotos(
+    searchParams.get('q')
+  );
 
   const { optimisticHeight, scrollTop, reset } = useOptimisticScrollValue();
 

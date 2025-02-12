@@ -2,7 +2,7 @@ import { getPhotos, searchPhotos } from '@/services/api/pexelApi';
 import { PhotosResult } from '@/types';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-export const useFetchPhotos = (search?: string) => {
+export const useFetchPhotos = (search?: string | null) => {
   return useInfiniteQuery({
     initialPageParam: 1,
     queryKey: ['photos', search],

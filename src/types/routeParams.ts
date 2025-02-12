@@ -5,3 +5,7 @@ export type PhotoDetailsParams = Parameters<
   typeof generatePath<(typeof appRoutes)['photoDetails']['url']>
 >[1] &
   Record<string, string>;
+
+export type PhotosViewSearchParams = {
+  q?: string;
+};

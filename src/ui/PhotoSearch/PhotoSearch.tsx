@@ -1,15 +1,24 @@
 import { useRef } from 'react';
-import './SearchBar.scss';
+import {
+  PhotoSearchBar,
+  PhotoSearchContainer,
+  PhotoSearchInput,
+} from './PhotoSearch.styles';
+import { useSearchParams } from 'react-router';
 
-function SearchBar() {
+export const PhotoSearch = () => {
   const searchRef = useRef<HTMLInputElement>(null);
+
+  const [, setQuery] = useSearchParams();
 
   const handleSearch = (reset?: boolean) => {
     if (reset) {
-      // setQuery('');
+      setQuery({});
       if (searchRef.current) searchRef.current.value = '';
     } else {
-      // setQuery(searchRef.current?.value || '');
+      setQuery({
+        q: searchRef.current?.value || '',
+      });
     }
   };
 
@@ -18,34 +27,23 @@ function SearchBar() {
   };
 
   return (
-    <div className="search-container">
-      <div className="search-bar">
-        <input
+    <PhotoSearchContainer>
+      <PhotoSearchBar>
+        <PhotoSearchInput
           ref={searchRef}
           type="text"
           placeholder="Search for photos..."
-          className="search-input"
           onKeyUp={handleKeyPress}
         />
         <div className="search-actions">
-          <button
-            className="reset-button"
-            onClick={() => handleSearch(true)}
-            aria-label="Reset search"
-          >
-            ✕
+          <button className="search-button" onClick={() => handleSearch()}>
+            Search
           </button>
-          <button
-            className="search-button"
-            onClick={() => handleSearch()}
-            aria-label="Search"
-          >
-            🔍
+          <button className="reset-button" onClick={() => handleSearch(true)}>
+            Reset
           </button>
         </div>
-      </div>
-    </div>
+      </PhotoSearchBar>
+    </PhotoSearchContainer>
   );
-}
-
-export default SearchBar;
+};
