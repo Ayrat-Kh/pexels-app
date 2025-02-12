@@ -1,6 +1,9 @@
 import { styled } from 'styled-components';
 
 export const PhotoDetailsSection = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
   marginTop: '20px',
   padding: '20px',
   background: '#fff',
@@ -16,11 +19,12 @@ export const PhotoDetailsImg = styled.img({
 });
 
 export const DescriptionList = styled.ul({
+  textAlign: 'left',
   listStyle: 'none',
   padding: 0,
   marginTop: '10px',
 
-  li: {
+  '& > li': {
     fontSize: '14px',
     color: '#53b365',
     marginTop: '4px',
