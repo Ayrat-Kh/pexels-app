@@ -1,4 +1,4 @@
-import { getPhotoById } from '@/services/api/photoApi';
+import { getPhotoById } from '@/services/api/pexelApi';
 import { useQuery } from '@tanstack/react-query';
 
 export const useFetchPhotoById = (id: string | undefined | null) => {

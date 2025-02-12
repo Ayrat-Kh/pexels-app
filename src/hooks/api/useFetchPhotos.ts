@@ -1,4 +1,4 @@
-import { getPhotos, searchPhotos } from '@/services/api/photoApi';
+import { getPhotos, searchPhotos } from '@/services/api/pexelApi';
 import { PhotosResult } from '@/types';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
