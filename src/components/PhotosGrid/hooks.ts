@@ -39,11 +39,16 @@ export const useOptimisticScrollValue = () => {
 };
 
 export const useFetchMorePhotos = () => {
-  const { hasNextPage, fetchNextPage } = useSearchFetchPhotos();
+  const { hasNextPage, fetchNextPage, isFetching } = useSearchFetchPhotos();
 
-  return useCallback(async () => {
+  const fetchMore = useCallback(async () => {
     if (hasNextPage) {
       fetchNextPage();
     }
   }, [fetchNextPage, hasNextPage]);
+
+  return {
+    fetchMore,
+    isFetching,
+  };
 };
