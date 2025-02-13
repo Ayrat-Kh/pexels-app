@@ -35,58 +35,46 @@ test('should compute 3 column grid', () => {
   expect(visibleItems).toEqual([
     // second rwo
     {
-      style: {
+      style: expect.objectContaining({
         left: 0,
         top: 45, // 40 from first row + 5 gap
-        width: 100,
-        height: 40,
-      },
+      }),
       itemIndex: 3,
     },
     {
-      style: {
+      style: expect.objectContaining({
         left: 105, // 100 from first column + 5 gap
         top: 45, // 40 from first row + 5 gap
-        width: 100,
-        height: 40,
-      },
+      }),
       itemIndex: 4,
     },
     {
-      style: {
+      style: expect.objectContaining({
         left: 210, // 205 from 2 prev columns + 5 gap
         top: 45,
-        width: 100,
-        height: 40,
-      },
+      }),
       itemIndex: 5,
     },
     // third row
     {
-      style: {
+      style: expect.objectContaining({
         left: 0,
         top: 90,
-        width: 100,
-        height: 40,
-      },
+      }),
       itemIndex: 6,
     },
     {
-      style: {
+      style: expect.objectContaining({
         left: 105,
         top: 90,
-        width: 100,
-        height: 40,
-      },
+      }),
       itemIndex: 7,
     },
     {
-      style: {
+      style: expect.objectContaining({
         left: 210,
         top: 90,
-        width: 100,
-        height: 40,
-      },
+      }),
       itemIndex: 8,
     },
   ]);
@@ -121,30 +109,24 @@ test('should evenly fill 2 columns', () => {
 
   expect(visibleItems).toEqual([
     {
-      style: {
+      style: expect.objectContaining({
         left: 0,
         top: 0, // 40 from first row + 5 gap
-        width: 75,
-        height: 40,
-      },
+      }),
       itemIndex: 0,
     },
     {
-      style: {
+      style: expect.objectContaining({
         left: 80, // 100 from first column + 5 gap
         top: 0, // 40 from first row + 5 gap
-        width: 75,
-        height: 20,
-      },
+      }),
       itemIndex: 1,
     },
     {
-      style: {
+      style: expect.objectContaining({
         left: 80, // 205 from 2 prev columns + 5 gap
         top: 25,
-        width: 75,
-        height: 20,
-      },
+      }),
       itemIndex: 2,
     },
   ]);

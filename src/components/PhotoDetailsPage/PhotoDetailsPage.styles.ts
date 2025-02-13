@@ -25,8 +25,9 @@ export const DescriptionList = styled.ul({
   marginTop: '10px',
 
   '& > li': {
+    fontWeight: 'bold',
     fontSize: '14px',
-    color: '#53b365',
+    color: '#1F2D5C',
     marginTop: '4px',
   },
 });
@@ -41,7 +42,8 @@ export const ImageLink = styled.a({
 });
 
 export const DescriptionListItemLabel = styled.span({
-  color: '#25482d',
+  fontWeight: 'normal',
+  color: '#3358D4',
   minWidth: '48px',
   display: 'inline-block',
 });
