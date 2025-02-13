@@ -58,13 +58,16 @@ export const computeMasonryLayout = <T extends Dimension>({
     (containerWidth - (columnCount - 1) * gap) / columnCount
   );
 
+  // keep the lowest column index to evenly fill columns
+  let minHeightColumnIndex = 0;
+
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
     // Which column the item belongs to
-    const columnIndex = i % columnCount;
+    // const columnIndex =  totalHeightByColumn.findIndex(c => c) i % columnCount;
     const aspect = getAspectRatio(item);
 
-    const elementTop = totalHeightByColumn[columnIndex];
+    const elementTop = totalHeightByColumn[minHeightColumnIndex];
     const elementHeight = elementWidth / aspect;
     const elementBottom = elementTop + elementHeight;
 
@@ -76,15 +79,23 @@ export const computeMasonryLayout = <T extends Dimension>({
       result.push({
         itemIndex: i,
         style: {
-          top: totalHeightByColumn[columnIndex],
-          left: (elementWidth + gap) * columnIndex,
+          top: totalHeightByColumn[minHeightColumnIndex],
+          left: (elementWidth + gap) * minHeightColumnIndex,
           width: elementWidth,
           height: elementHeight,
         },
       });
     }
 
-    totalHeightByColumn[columnIndex] += elementHeight + gap;
+    totalHeightByColumn[minHeightColumnIndex] += elementHeight + gap;
+
+    let smallestHeight = Number.POSITIVE_INFINITY;
+    totalHeightByColumn.forEach((columnHeight, index) => {
+      if (columnHeight < smallestHeight) {
+        minHeightColumnIndex = index;
+        smallestHeight = columnHeight;
+      }
+    });
   }
 
   return {

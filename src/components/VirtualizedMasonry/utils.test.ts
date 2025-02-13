@@ -2,7 +2,7 @@ import { expect, test } from 'vitest';
 import { computeMasonryLayout } from './utils';
 
 const mockedBreakpoints = [
-  { break: 150, gap: 5, columnCount: 2 },
+  { break: 156, gap: 5, columnCount: 2 },
   { break: 350, gap: 5, columnCount: 3 },
   { gap: 5, columnCount: 4 },
 ];
@@ -103,4 +103,49 @@ test('should compute 2 column grid', () => {
   });
 
   expect(columnCount).toEqual(2);
+});
+
+test('should evenly fill 2 columns', () => {
+  const { visibleItems } = computeMasonryLayout({
+    containerTop: 0,
+    containerHeight: 50,
+    containerWidth: 155,
+    breakpoints: mockedBreakpoints,
+    items: [
+      { width: 75, height: 40, id: '1' },
+      { width: 75, height: 20, id: '2' },
+      { width: 75, height: 20, id: '3' },
+    ],
+    tolerance: 0,
+  });
+
+  expect(visibleItems).toEqual([
+    {
+      style: {
+        left: 0,
+        top: 0, // 40 from first row + 5 gap
+        width: 75,
+        height: 40,
+      },
+      itemIndex: 0,
+    },
+    {
+      style: {
+        left: 80, // 100 from first column + 5 gap
+        top: 0, // 40 from first row + 5 gap
+        width: 75,
+        height: 20,
+      },
+      itemIndex: 1,
+    },
+    {
+      style: {
+        left: 80, // 205 from 2 prev columns + 5 gap
+        top: 25,
+        width: 75,
+        height: 20,
+      },
+      itemIndex: 2,
+    },
+  ]);
 });
