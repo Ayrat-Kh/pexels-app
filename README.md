@@ -31,7 +31,7 @@
    cp .env.local.example .env.local
    ```
 
-   - Set `VITE_PEXELS_API_KEY` variable in `.env.local`:
+   - Set `VITE_PEXELS_API_KEY` variable in `.env.local` file
 
 4. Start the development server:
 
