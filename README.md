@@ -10,6 +10,8 @@
 
 ## Installation
 
+Project was built and tested using NodeJs 21.
+
 1. Clone the repository:
 
    ```sh
