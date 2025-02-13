@@ -18,7 +18,7 @@ const App = () => {
       <BrowserRouter>
         <Suspense
           fallback={
-            <PageLayout isCentered>
+            <PageLayout $isCentered>
               <Loading />
             </PageLayout>
           }

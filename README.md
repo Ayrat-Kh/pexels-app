@@ -56,3 +56,11 @@ To run tests:
 ```sh
 npm run test
 ```
+
+## About masonry layout computation
+
+It was a bit tricky to compute virtualized grid using flex or grid and keeping it virtualized at the same time, which is why was used absolute positioning.
+
+## FAQ
+
+In a dev mode requests can be canceled and it seems to be related to how react-query works and react's useEffect mounting/unmounting check in a dev mode. This isn't happening in production build.

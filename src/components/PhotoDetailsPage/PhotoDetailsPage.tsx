@@ -37,7 +37,7 @@ export const PhotoDetailsPage = () => {
 
   if (isLoading) {
     return (
-      <PageLayout isCentered>
+      <PageLayout $isCentered>
         <Loading />
       </PageLayout>
     );
@@ -45,7 +45,7 @@ export const PhotoDetailsPage = () => {
 
   if (error || !photoDetails) {
     return (
-      <PageLayout isCentered>
+      <PageLayout $isCentered>
         <AppError
           message={
             error instanceof NotFoundError ? 'Not found' : 'Unknown error'
@@ -56,7 +56,7 @@ export const PhotoDetailsPage = () => {
   }
 
   return (
-    <PageLayout align="center">
+    <PageLayout $align="center">
       <PhotoDetailsInner>
         <Link
           to={{

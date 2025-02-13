@@ -175,7 +175,6 @@ const UnforwardedVirtualizedMasonry = function VirtualizedMasonry<
           );
         })}
       </VirtualizedMasonryContainer>
-      <div>element</div>
       {BottomComponent && (
         <BottomComponent scrollView={scrollViewRef.current} />
       )}
